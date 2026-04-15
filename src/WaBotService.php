@@ -86,7 +86,7 @@ class WaBotService
         }
     }
 
-    public function sendText(string $phoneID, string $recipient, string $message, ?array $quoted)
+    public function sendText(string $phoneID, string $recipient, string $message, ?string $quoted)
     {
         if (empty($phoneID)) {
             throw new Exception('$phoneID is required');
@@ -113,7 +113,7 @@ class WaBotService
         }
     }
 
-    public function sendDocument(string $phoneID, string $recipient, mixed $documentContents, string $documentFileName, ?array $quoted)
+    public function sendDocument(string $phoneID, string $recipient, mixed $documentContents, string $documentFileName, ?string $quoted)
     {
         if (empty($phoneID)) {
             throw new Exception('$phoneID is required');
@@ -153,7 +153,7 @@ class WaBotService
         }
     }
 
-    public function sendImage(string $phoneID, string $recipient, mixed $imageContents, string $imageFileName, ?array $quoted)
+    public function sendImage(string $phoneID, string $recipient, mixed $imageContents, string $imageFileName, ?string $quoted)
     {
         if (empty($phoneID)) {
             throw new Exception('$phoneID is required');
