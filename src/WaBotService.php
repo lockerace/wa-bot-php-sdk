@@ -8,6 +8,8 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
+use Lockerace\WaBot\Models\WaBotGroup;
+use Lockerace\WaBot\Models\WaBotPhone;
 use Lockerace\WaBot\Models\WaBotSentResult;
 use Throwable;
 
@@ -84,6 +86,55 @@ class WaBotService
                 'data' => '',
             ];
         }
+    }
+
+    public function getQRCode()
+    {
+        $url = $this->_baseUrl . '/qrcode';
+        $res = $this->request('GET', $url, []);
+        if ($res['success']) {
+            $data = json_decode($res['data'], true);
+            if (!empty($data['qrcode'])) {
+                return $data['qrcode'];
+            }
+        }
+        return false;
+    }
+
+    public function getPhones()
+    {
+        $url = $this->_baseUrl . '/phones';
+        $res = $this->request('GET', $url, []);
+        if ($res['success']) {
+            $final = [];
+            $data = json_decode($res['data'], true);
+            foreach ($data as $phone) {
+                $botPhone = new WaBotPhone($phone);
+                if (!empty($botPhone)) {
+                    $final[] = $botPhone;
+                }
+            }
+            return $final;
+        }
+        return false;
+    }
+
+    public function getGroups(string $phoneID)
+    {
+        $url = $this->getPhoneBaseUrl($phoneID) . '/groups';
+        $res = $this->request('GET', $url, []);
+        if ($res['success']) {
+            $final = [];
+            $data = json_decode($res['data'], true);
+            foreach ($data as $group) {
+                $botGroup = new WaBotGroup($group);
+                if (!empty($botGroup)) {
+                    $final[] = $botGroup;
+                }
+            }
+            return $final;
+        }
+        return false;
     }
 
     public function sendText(string $phoneID, string $recipient, string $message, ?string $quoted)
