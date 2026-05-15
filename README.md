@@ -38,10 +38,11 @@ Run `$phones = WaBot::getPhones();`
 - 0: silent
 - 1: normal
 ### List Groups
-Run `$groups = WaBot::getGroups($phoneID);`
+Run `$groups = WaBot::getGroups($phoneID);` and it will return list of group object `{id: string, name: string}`
 ### Send Text
 Run `$messageResult = WaBot::sendText($phoneID, $recipient, $message, $quotedMessageID);`
 - `$recipient` format is international phone number without the plus (+) or zero (0) prefix, e.g.: `+1 202 555 0185` become `12025550185`, `+62 812-3456-7890` become `6281234567890`
+- for sending to group, `$recipient` must use id from group object from [List Groups](#list-groups)
 
 ### Send Document
 Run `$messageResult = WaBot::sendDocument($phoneID, $recipient, $contents, $fileName, $quotedMessageID);`
